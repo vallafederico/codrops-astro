@@ -1,0 +1,50 @@
+---
+const links = [
+    {
+        label: 'Home',
+        href: '/'
+    },
+    
+]   
+---
+
+
+<nav>
+    <a href="/">
+        LOGO
+    </a>
+    <ul>
+        {links.map((link) => (
+            <li>
+                <a href={link.href}>{link.label}</a>
+            </li>
+        ))}
+    </ul>
+</nav>
+
+<style> 
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        outline: 1px solid red;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+
+        padding: var(--space-y) var(--space-x);
+    }
+
+    ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    li {
+        list-style: none;
+    }
+</style>
