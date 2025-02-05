@@ -91,3 +91,9 @@ looking at <body> tag inside the Layout.astro, the slot is where what we'll have
 ```
 
 We wrap the slot twice, once in a <main> tag with the `data-taxi` atrribute, and inside with a div (or anything you want) with the `data-taxi-view` attribute, that will wrap the swapped content.
+
+We'll also create another couple of pages, leveraging the layout from Astro that we just set up and add those to the navigation, so we'll have something to navigate to.
+
+Another thing to notice is that I've set up through the layout a props, thew page title, so we can pass it to every page and it'll be dynamicly applied to the layout.
+
+#### Working om the Pages class

@@ -17,10 +17,22 @@ const {title = 'Codrops'} = Astro.props;
 
 
 	<body>
+		<!-- nav is outside of the main container, 
+		 so will never be swapped  -->
 		<Nav />
-		
-		<slot />
 
+		<!-- target for the swapped content -->
+		<main data-taxi>
+			<!-- container for the 
+			 content that will change -->
+			<div data-taxi-view>
+				<slot />
+			</div>
+		</main>
+
+		<!-- same for the nav, this is our main javascript 
+		 entry point that we want to only run once and not 
+		 changed based on pages -->
 		<script>
 			import "../modules/app";
 		</script>
