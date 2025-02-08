@@ -1,5 +1,8 @@
-class Pages {
+import { Core } from "@unseenco/taxi";
+
+class Pages extends Core {
   constructor() {
+    super();
     console.log("pages");
   }
 }

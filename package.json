@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@unseenco/taxi": "^1.8.0",
     "astro": "^5.2.5"
   }
 }

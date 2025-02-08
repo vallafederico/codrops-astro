@@ -102,5 +102,51 @@ Another thing to notice is that I've set up through the layout a props, thew pag
 
 #### Working on the Pages class
 
-We already have a script set up for our app.js entry point.
-This imports two singletons (meaning already initialised classes, I think those are called that), `scroll` and `pages`, which will respectively be our implementation of Lenis (because why not while we're at it) and the actual Taxi.js implementation.
+We already have a script set up for our `app.js` entry point.
+
+This imports two singletons (meaning already initialised classes, I think those are called that), `Scroll` and `Pages`, which will respectively be our implementation of Lenis (because why not while we're at it) and the actual Taxi.js implementation. It also exports itself, in case we'll need to refer to it in other files.
+
+It's important that we export those the way they are and not import the bare class to be initialised in other files, as we want both Lenis end Taxi to be initialised only once, and always refer to the same instance.
+
+By following the [documentation](https://taxi.js.org/how-to-use/), is now time to install the package and initialise the taxi core. I'm using `pnpm`(and you probably should too), but you can go on by running your favourite install command.
+
+```
+pnpm add @unseenco/taxi
+```
+
+Then in the `pages.js`class, we set up the Taxi Core. This is enough to get seamless page transitions.
+
+```js
+import { Core } from "@unseenco/taxi";
+
+class Pages extends Core {
+  constructor() {
+    super();
+    console.log("pages");
+  }
+}
+
+export default new Pages();
+```
+
+To make a bit more clear what's happening, we can add an entry point notation to the Nav,
+that's supposed to stay in place when the rest of the website transitions. We do this but just adding the Astro.props to the nav, and pass the {title} as a value.
+
+```jsx
+---
+const {entry} = Astro.props;
+---
+<nav>
+  <a href="/">LOGO</a>
+  <p>entry is {entry}</p>
+  <ul>
+    {links.map((link) => (
+      <li>
+        <a href={link.href}>{link.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+```
+
+Now if you click on any link, you'll see that the page change but the entry is ... remains what was the initial page we entered the website from. Try and refresh, and you'll see the text changing based on the page you're on,
