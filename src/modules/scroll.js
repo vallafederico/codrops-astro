@@ -2,7 +2,7 @@ import Pages from "./pages";
 
 class Scroll {
   constructor() {
-    console.log("scroll");
+    // console.log("scroll");
   }
 }
 

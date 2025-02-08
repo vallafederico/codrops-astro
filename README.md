@@ -260,8 +260,53 @@ Note that if you don't use the renderer, you can not specify it and Taxi will st
 
 ---
 
-### Some Transitions (003)
+### Some Transition examples (003)
 
----
+#### Basic Fade In/Out Transition
 
-Now time for something more fun. Let's install [GSAP](https://gsap.com/) and Lenis, as we'll be using those throughout.
+Now time for something more fun. Let's install [GSAP](https://gsap.com/) and start animating some things.
+
+We'll create a `gsap.js`file to set some defaults and keep things organised, and import things from there.
+
+For now since we're not doing anything custom with the renderer and will focus mostly on transitions, we can remove and comment out the renderer declaration, as this also keeps our console a bit cleaner.
+
+To create a basic fade in/out transitions as our default we can just write a simple tween in the transition we already have.
+
+We already have a wrapper for the whole page set to use taxi, so we can use that selector to make sure everythign that will be swapped will fade out, and when will come in will start with no opacity and gradually get back to visible.
+
+By leveraging the async nature of gsap tweens, we can remove our fake Promise we set up for demonstration purposes, and use a tween.
+
+```js
+// pages.js
+async onLeave({ from, trigger, done }) {
+  console.log("transition:onLeave");
+
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  await gsap.to("[data-taxi]", {
+    autoAlpha: 0,
+    duration: 1,
+  });
+
+  done();
+}
+
+async onEnter({ to, trigger, done }) {
+  console.log("transition:onEnter");
+
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  await gsap.to("[data-taxi]", {
+    autoAlpha: 1,
+    duration: 1,
+    ease: "linear",
+    delay: 0.5,
+  });
+
+  done();
+}
+```
+
+This way the wrapper of the swappable content will fade to 0 before the page gets swapped. TO make sure it comes back when the new one is in, we can do the reverse in the onEnter transition.
+
+While awiating the onEnter tween is not necessary, it is important if you wan to embrace the way taxi works and make sure your enter animations are finished before the user is able to click on another link and navigate to a new page.
