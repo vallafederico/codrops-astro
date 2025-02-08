@@ -96,4 +96,4 @@ We'll also create another couple of pages, leveraging the layout from Astro that
 
 Another thing to notice is that I've set up through the layout a props, thew page title, so we can pass it to every page and it'll be dynamicly applied to the layout.
 
-#### Working om the Pages class
+#### Working on the Pages class
