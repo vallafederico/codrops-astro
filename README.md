@@ -14,7 +14,9 @@
 - we'll start from a bare example, that will dive into the more technical part and how our setup will work
 - once past that, we'll dive into a few examples of implemented transitions without going through the basics, and just taking about the transition specific stuffs
 
-### Basic Setup / Starter (001 - start)
+---
+
+### Basic Setup / Starter (000)
 
 We start from a pretty basic Astro setup, that's basically what comes out of running npm create astro@latest.
 
@@ -25,7 +27,9 @@ I've done some initial work and set up a few things:
 - a src/modules/ folder, which is where we'll be writing most of our code.
 - I've also slightly modified the Layout.astro, adding both the import for our newly created css file, the Nav component we created, and a script tag the way we want it.
 
-### Page tranistion related setup (002 - initial setup)
+---
+
+### Page tranistion related setup (002 - initial setup) (001)
 
 I've kept this second part out as this is still setup, but related to handling and doing page transition.
 
@@ -97,3 +101,6 @@ We'll also create another couple of pages, leveraging the layout from Astro that
 Another thing to notice is that I've set up through the layout a props, thew page title, so we can pass it to every page and it'll be dynamicly applied to the layout.
 
 #### Working on the Pages class
+
+We already have a script set up for our app.js entry point.
+This imports two singletons (meaning already initialised classes, I think those are called that), `scroll` and `pages`, which will respectively be our implementation of Lenis (because why not while we're at it) and the actual Taxi.js implementation.
