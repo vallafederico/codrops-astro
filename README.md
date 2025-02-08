@@ -29,7 +29,7 @@ I've done some initial work and set up a few things:
 
 ---
 
-### Page tranistion related setup (002 - initial setup) (001)
+### Page tranistion related setup (001)
 
 I've kept this second part out as this is still setup, but related to handling and doing page transition.
 
@@ -150,3 +150,7 @@ const {entry} = Astro.props;
 ```
 
 Now if you click on any link, you'll see that the page change but the entry is ... remains what was the initial page we entered the website from. Try and refresh, and you'll see the text changing based on the page you're on,
+
+---
+
+### ... (002 - ...)
