@@ -260,4 +260,8 @@ Note that if you don't use the renderer, you can not specify it and Taxi will st
 
 ---
 
+### Some Transitions (003)
+
+---
+
 Now time for something more fun. Let's install [GSAP](https://gsap.com/) and Lenis, as we'll be using those throughout.
