@@ -14,8 +14,11 @@ class Pages extends Core {
 }
 
 /** Transitions(s) */
+transitionAnimation();
 
-async function transitionAnimation(to = "[data-taxi-view]") {
+async function transitionAnimation(
+  to = document.querySelector("[data-taxi-view]")
+) {
   await gsap.to(to.querySelector("h1"), {
     autoAlpha: 1,
     duration: 0.6,
@@ -23,6 +26,7 @@ async function transitionAnimation(to = "[data-taxi-view]") {
 
   return {};
 }
+
 class CustomTransition extends Transition {
   async onLeave({ from, trigger, done }) {
     // console.log("transition:onLeave");

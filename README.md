@@ -352,6 +352,8 @@ We also slightly modified the tween to make it swipe instead of going in and out
 
 To make it a bit more interesting, let's first animate the `h1`s on the page out, and then do the swipe.
 
+We're using the parameters that taxi gives us on the transition to make sure we select the correct thing as well. Instead of selecting from the whole document, we're selecting from respectively from and to, destructured from the function arguments.
+
 ```js
 
   async onLeave({ from, trigger, done }) {
@@ -375,10 +377,6 @@ To make it a bit more interesting, let's first animate the `h1`s on the page out
   async onEnter({ to, trigger, done }) {
     // console.log("transition:onEnter");
 
-    const h1 = to.querySelector("h1");
-    gsap.set(h1, {
-      autoAlpha: 0,
-    });
 
     await gsap.to(".transition-block", {
       scaleY: 0,
@@ -400,4 +398,26 @@ We take advantage of the fact that the element is covering the whole page, set t
 
 In general this will only work when you have something covering all of it, so in other cases you might want to use css to give everything an initial state, and animate it in when the first page load manually, and then use transitions for all the following navigations.
 
-Wer can do this conveniently by abstracting this operations into a function.
+We can do this conveniently by abstracting this operations into a function.
+It's important that this function gets called once when the app initialises in addition to invoking it on transitions, as otherwise the css we're setting in `styles.css` to maintain the initial states will not display anything on initial page load.
+
+```js
+transitionAnimation();
+
+async function transitionAnimation(
+  to = document.querySelector("[data-taxi-view]")
+) {
+  await gsap.to(to.querySelector("h1"), {
+    autoAlpha: 1,
+    duration: 0.6,
+  });
+
+  return {};
+}
+```
+
+Just having this in the file works, but you can see now why renderers can be useful to handle the whole app lifecycle handling your initial states, and all the animations you'll have in your pages.
+
+We can revive the renderer we commented out before, and set up our code in a smarter way leveraging what taxi provides out of the box.
+
+It'll be useful to start distinguishing between what's an actual transition and what's actually your page animation. While the red box animating we can categorise as a transition, the h1's animating in and out we should think about as page elements, so we should move that part of the animation in the renderer.
