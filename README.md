@@ -153,4 +153,20 @@ Now if you click on any link, you'll see that the page change but the entry is .
 
 ---
 
-### ... (002 - ...)
+### Configuring the Core (002)
+
+We got the basic setup implemented, now time for more fun stuffs.
+
+#### Extending the class
+
+The Taxi Core takes some parameters. You can look at them more in depth in the documentation. Only thing I would mention is that since we're extending the class, those should go in the `super()` call.
+
+This configuration takes in our declaration for `Renderers` and `Transitions` declarations.
+
+#### Renderers
+
+Renderers are what control what happens when you click a link, anbd which transition is applied.
+
+---
+
+Now time for something more fun. Let's install [GSAP](https://gsap.com/) and Lenis, as we'll be using those throughout.
