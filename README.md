@@ -307,6 +307,8 @@ async onEnter({ to, trigger, done }) {
 }
 ```
 
-This way the wrapper of the swappable content will fade to 0 before the page gets swapped. TO make sure it comes back when the new one is in, we can do the reverse in the onEnter transition.
+This way the wrapper of the swappable content will fade to 0 before the page gets swapped. To make sure it comes back when the new one is in, we can do the reverse in the onEnter transition.
 
 While awiating the onEnter tween is not necessary, it is important if you wan to embrace the way taxi works and make sure your enter animations are finished before the user is able to click on another link and navigate to a new page.
+
+#### Persistent element transition (004)
