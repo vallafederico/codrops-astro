@@ -165,7 +165,98 @@ This configuration takes in our declaration for `Renderers` and `Transitions` de
 
 #### Renderers
 
-Renderers are what control what happens when you click a link, anbd which transition is applied.
+For now Taxi is running it's default renderer as we're getting
+
+Renderers are what control what happens when you click a link, anbd which transition is applied. We can create a custom one to start taking ownership of the behaviour, and we'll do by referring to the [documentation](https://taxi.js.org/renderers/) once again.
+
+By implementing a renderer with this logs, we'll have a clearer view of what's happening in the console. We'll also add the `initialLoad()` method. A renderer runs every time the page is changed, but also on first page load, so you can use the initialLoad() method to start your setup (if you want to control everything from the Renderers, ie starting a set of controllers for the Navigation or some elements that will be persistent).
+
+```js
+// pages.js
+import { Core, Renderer } from "@unseenco/taxi";
+
+class Pages extends Core {
+  constructor() {
+    super({
+      links: "a:not([target]):not([href^=\\#]):not([data-taxi-ignore])",
+      renderers: {
+        default: CustomRenderer,
+      },
+    });
+    console.log("pages");
+  }
+}
+
+/** Renderer(s) */
+class CustomRenderer extends Renderer {
+  initialLoad() {
+    // run the first time a user enters a page
+    console.log("initialLoad");
+  }
+
+  onEnter() {
+    // run after the new content has been added to the Taxi container
+    console.log("onEnter");
+  }
+
+  onEnterCompleted() {
+    // run after the transition.onEnter has fully completed
+    console.log("onEnterCompleted");
+  }
+
+  onLeave() {
+    // run before the transition.onLeave method is called
+    console.log("onLeave");
+  }
+
+  onLeaveCompleted() {
+    // run after the transition.onleave has fully completed
+    console.log("onLeaveCompleted");
+  }
+}
+```
+
+#### Transitions
+
+Transitions are the animations that run when a link is clicked. They look somewhat similar to renderers.
+
+Implemented in a similar way, the main difference is that there's a `done()` called that syncs it with the Renderer and that lifecycle. If we make the methods async and we wait 1s, we'll see what actually happens in the Transitions methods.
+
+```js
+class CustomTransition extends Transition {
+  /**
+   * Handle the transition leaving the previous page.
+   * @param { { from: HTMLElement, trigger: string|HTMLElement|false, done: function } } props
+   */
+  async onLeave({ from, trigger, done }) {
+    console.log("transition:onLeave");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    done();
+  }
+
+  /**
+   * Handle the transition entering the next page.
+   * @param { { to: HTMLElement, trigger: string|HTMLElement|false, done: function } } props
+   */
+  async onEnter({ to, trigger, done }) {
+    console.log("transition:onEnter");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    done();
+  }
+}
+```
+
+With this async setup we can make sure our Leave animation is actually completely finished before the next step of the lifecycle happens, and we'll be able to orchestrate everything.
+
+You can create a setup where you have different transitions, and apply them to specific pages by using the `data-transition` attribute on your pages.
+
+Always set up a default transition by passing it to the Core configuration under the transitions.default key. This will happen every time when you don't have a transition higher in the hyerarchy.
+
+Would suggest checking the [docs on routing to understand more about hyerachy](https://taxi.js.org/routing/) and how Transitions are actually chosen if you want to get into custom transitions and more advanced concepts, which we'll ignore for now.
+
+Note that if you don't use the renderer, you can not specify it and Taxi will still run the default renderer while still executing the transitions as you would expect.
 
 ---
 
