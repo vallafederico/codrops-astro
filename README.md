@@ -311,4 +311,93 @@ This way the wrapper of the swappable content will fade to 0 before the page get
 
 While awiating the onEnter tween is not necessary, it is important if you wan to embrace the way taxi works and make sure your enter animations are finished before the user is able to click on another link and navigate to a new page.
 
+We've now covered all the basics so we'll get into some more advanced stuffs. From this point onwards I'll avoid explaining really basic things (as this is becoming long enough), and focus on the key elements only.
+
 #### Persistent element transition (004)
+
+We currently have a real basic setup that fades in and out the whole page to make the transition happen. Let's now work on another pretty common transition, having some colored block covering the whole page and revealing the new content instead of fading.
+
+We add a div outside the swappable content, set it to be scaled to 0 os it's not visible at the start, and animate it when the transition happens. We can do it in layout to make sure that whatever the entry point is it'll always be there, and animate in the same way we were animating the wrapper before.
+
+```js
+
+async onLeave({ from, trigger, done }) {
+  // console.log("transition:onLeave");
+
+  await gsap.to(".transition-block", {
+    scaleY: 1,
+    duration: 1.2,
+    transformOrigin: "bottom",
+  });
+
+  done();
+}
+
+async onEnter({ to, trigger, done }) {
+  // console.log("transition:onEnter");
+
+  await gsap.to(".transition-block", {
+    scaleY: 0,
+    duration: 0.8,
+    delay: 0.2,
+    transformOrigin: "top",
+  });
+
+  done();
+}
+
+```
+
+We also slightly modified the tween to make it swipe instead of going in and out from the same position using gsap transformOrigin property of the tween.
+
+To make it a bit more interesting, let's first animate the `h1`s on the page out, and then do the swipe.
+
+```js
+
+  async onLeave({ from, trigger, done }) {
+    // console.log("transition:onLeave");
+
+    await gsap.to(from.querySelector("h1"), {
+      autoAlpha: 0,
+      duration: 0.6,
+      delay: 0.2,
+    });
+
+    await gsap.to(".transition-block", {
+      scaleY: 1,
+      duration: 0.8,
+      transformOrigin: "bottom",
+    });
+
+    done();
+  }
+
+  async onEnter({ to, trigger, done }) {
+    // console.log("transition:onEnter");
+
+    const h1 = to.querySelector("h1");
+    gsap.set(h1, {
+      autoAlpha: 0,
+    });
+
+    await gsap.to(".transition-block", {
+      scaleY: 0,
+      duration: 0.6,
+      delay: 0.2,
+      transformOrigin: "top",
+    });
+
+    await gsap.to(h1, {
+      autoAlpha: 1,
+      duration: 0.6,
+    });
+
+    done();
+  }
+```
+
+We take advantage of the fact that the element is covering the whole page, set the h1 of the new page to `autoAlpha:0`and animate it in after the red container reveals the page.
+
+In general this will only work when you have something covering all of it, so in other cases you might want to use css to give everything an initial state, and animate it in when the first page load manually, and then use transitions for all the following navigations.
+
+Wer can do this conveniently by abstracting this operations into a function.

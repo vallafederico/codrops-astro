@@ -46,3 +46,10 @@ a:hover {
 main {
   padding: 5rem var(--space-x) 0rem var(--space-x);
 }
+
+/* INITIAL STATES */
+
+h1 {
+  opacity: 0;
+  visibility: hidden;
+}

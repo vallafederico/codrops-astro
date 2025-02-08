@@ -15,40 +15,43 @@ class Pages extends Core {
 
 /** Transitions(s) */
 
+async function transitionAnimation(to = "[data-taxi-view]") {
+  await gsap.to(to.querySelector("h1"), {
+    autoAlpha: 1,
+    duration: 0.6,
+  });
+
+  return {};
+}
 class CustomTransition extends Transition {
-  /**
-   * Handle the transition leaving the previous page.
-   * @param { { from: HTMLElement, trigger: string|HTMLElement|false, done: function } } props
-   */
   async onLeave({ from, trigger, done }) {
-    console.log("transition:onLeave");
+    // console.log("transition:onLeave");
 
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    await gsap.to("[data-taxi]", {
+    await gsap.to(from.querySelector("h1"), {
       autoAlpha: 0,
-      duration: 1,
-      ease: "linear",
+      duration: 0.6,
+    });
+
+    await gsap.to(".transition-block", {
+      scaleY: 1,
+      duration: 0.8,
+      transformOrigin: "bottom",
     });
 
     done();
   }
 
-  /**
-   * Handle the transition entering the next page.
-   * @param { { to: HTMLElement, trigger: string|HTMLElement|false, done: function } } props
-   */
   async onEnter({ to, trigger, done }) {
-    console.log("transition:onEnter");
+    // console.log("transition:onEnter");
 
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    await gsap.to("[data-taxi]", {
-      autoAlpha: 1,
-      duration: 1,
-      ease: "linear",
-      delay: 0.5,
+    await gsap.to(".transition-block", {
+      scaleY: 0,
+      duration: 0.6,
+      delay: 0.2,
+      transformOrigin: "top",
     });
+
+    await transitionAnimation(to);
 
     done();
   }

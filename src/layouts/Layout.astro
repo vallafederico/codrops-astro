@@ -30,6 +30,10 @@ const {title = 'Codrops'} = Astro.props;
 			</div>
 		</main>
 
+		<!-- add this to cover 
+		 the whole screen -->
+		<div class="transition-block"></div>
+
 		<!-- same for the nav, this is our main javascript 
 		 entry point that we want to only run once and not 
 		 changed based on pages -->
@@ -38,3 +42,22 @@ const {title = 'Codrops'} = Astro.props;
 		</script>
 	</body>
 </html>
+
+
+<style>
+.transition-block{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: red;
+	pointer-events: none;
+
+	z-index: 100;
+
+	transform: scaleY(0);
+	transform-origin: bottom;
+	
+}
+</style>
